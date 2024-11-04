@@ -22,6 +22,10 @@ mv azure-migrate-appcat-for-java-cli-6.3.0.9 ./appcat
 
 export PATH=$PATH:$(pwd)/appcat/bin
 
+sudo cp -r /root/.ssh/  ~/
+
+eval "$(ssh-agent -s)"
+
 echo "Installation complete."
  
  
