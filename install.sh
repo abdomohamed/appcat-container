@@ -15,18 +15,36 @@ mkdir -p ./tools
 
 cd tools
 
-curl -O https://download.visualstudio.microsoft.com/download/pr/a52e9a99-3a70-4634-8d53-1585daf73076/448b6540eb5479484096462f1c9463e5/azure-migrate-appcat-for-java-cli-6.3.0.9-preview.zip
+echo "downloading AppCat CLI..."
 
-unzip azure-migrate-appcat-for-java-cli-6.3.0.9-preview.zip -d ./
+if [ -f "azure-migrate-appcat-for-java-cli-6.3.0.9-preview.zip" ]; then
+    echo "File azure-migrate-appcat-for-java-cli-6.3.0.9-preview.zip already exists. Skipping download."
+else
+    curl -O https://download.visualstudio.microsoft.com/download/pr/a52e9a99-3a70-4634-8d53-1585daf73076/448b6540eb5479484096462f1c9463e5/azure-migrate-appcat-for-java-cli-6.3.0.9-preview.zip
+fi
 
-mv azure-migrate-appcat-for-java-cli-6.3.0.9 ./appcat
+echo "Unzipping AppCat file ... to ./appcat"
 
-export PATH=$PATH:$(pwd)/appcat/bin
+if [ -d "./appcat" ]; then
+    echo "Directory ./appcat already exists. Skipping unzip."
+else
+    unzip azure-migrate-appcat-for-java-cli-6.3.0.9-preview.zip -d ./
 
-sudo cp -r /root/.ssh/  ~/
+    echo "Moving AppCat files ... to ./appcat folder"
 
-eval "$(ssh-agent -s)"
+    mv azure-migrate-appcat-for-java-cli-6.3.0.9 ./appcat
+fi
 
-echo "Installation complete."
+cd .. 
+
+export PATH=$PATH:$(pwd)/tools/appcat/bin
+
+echo 'export PATH=$PATH:$(pwd)/tools/appcat/bin' >> ~/.bashrc
+
+source ~/.bashrc
+
+echo "Environment is ready."
+
+appcat --version
  
  
